@@ -3,12 +3,14 @@ This is the 'Program Counter' module.
 It's job is to send to the memory the address of the next instruction
 """
 
-from data_types import Nibble_type
+from data_types import Nibble
+from register import Register
 from bus import Bus
 from controler import Controler
 
-class Counter():
-    value: Nibble_type
+class Counter(Register):
+    #this is just a fancy register that counts up
+    value: Nibble
     bus: Bus
     control: Controler
 
@@ -17,5 +19,6 @@ class Counter():
         self.control = Controler
 
     def update(self):
-        if (self.control.getClock() == False):
-            #next address
+        #more to be added
+        if (not self.control.getClock()):
+            self.value.add(Nibble().value = 1)

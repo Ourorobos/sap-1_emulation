@@ -4,13 +4,13 @@ So basicly the brain of the brain.
 """
 
 # This Will need the Instruction Register to be added
-from data_types import Nibble_type
+from data_types import Nibble
 
 class Controler():
     clock: int
 
     def __init__(self): -> none
-        self.clock_flag = 0
+        self.clock = 0
 
     def getClock(self): -> bool
         remain = clock % 2

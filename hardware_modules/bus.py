@@ -2,18 +2,12 @@
 This is the Bus Modules file
 """
 
-import data_types
+from data_types import Byte
+from register import Register
 
-class Bus():
-    #This is a 8-bit data Bus
-    value: Byte_type
+class Bus(Register):
+    #This is just a fancy Register
+    value: Byte
 
-    __init__(self): -> None
-        self.value = Byte_type()
-
-    read_data(self, input: Byte_type = Byte_type()): ->None
-        value = input
-
-    write_data(self): -> Byte_type
-        return value
-        
+    def __init__(self): -> None
+        self.value = Byte()
