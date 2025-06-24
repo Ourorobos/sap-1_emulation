@@ -29,6 +29,12 @@ class Word():
     def getCarryBit(self): -> bool
         return getBit(length+1)
 
+    def setInt(self, value: int): -> None
+        self.value = value
+
+    def getInt(self): -> None
+        return self.value
+
 class Byte(Word):
     length: int = 8
 
