@@ -4,7 +4,7 @@ So basicly the brain of the brain.
 """
 
 # This Will need the Instruction Register to be added
-from data_types import Nibble
+from data_types import Nibble, Word
 from module import Module
 
 class Controler(Module):
@@ -12,27 +12,7 @@ class Controler(Module):
     clock: int
     tState: int
     tStateLen: int
-
-    #command flags
-    fClock: bool #clk and inverted clk
-    fClear: bool #clr and inverted clr
-    
-    fCount_next: bool #cp
-    fCount_out: bool #ep
-    
-    fLoad_mar: bool #inverted lm
-    fWrite_ram: bool #inverted ce
-    
-    fLoad_inst: bool #inverted li
-    fWrite_inst: bool #inverted ei
-    
-    fLoad_a: bool #inverted la
-    fWrite_a: bool #inverted ea
-    fSub: bool #su
-    fWrite_alu: bool #eu
-    fLoad_b: bool #inverted lb
-    
-    fload_o: bool #inverted lo
+    wControl: Word #This is layed out the same as in the book Lo at the lowest and Cp at the highest
 
 #methods
     def __init__(self) -> None:
@@ -40,24 +20,8 @@ class Controler(Module):
         self.clock = 0
         self.tState = 0
         self.tStateLen = 6
-
-    def setFlags(flags: List[bool] = []) -> None:
-        if (flags == []):
-            return
-        else:
-            self.fCount_next = flags[0]
-            self.fCount_out = flags[1]
-            self.fLoad_mar = flags[2]
-            self.fWrite_ram = flags[3]
-            self.fLoad_inst = flags[4]
-            self.fWrite_inis = flags[5]
-            self.fLoad_a = flags[6]
-            self.fWrite_a = flags[7]
-            self.sub = flags[8]
-            self.Write_alu = flags[9]
-            self.load_b = flags[10]
-            self.load_0 = flags[11]
-
+        self.wControl.length = 12
+        self.wControl.setInt(0)
     #clock
     def getClock(self) -> None:
         remain = clock % 2
@@ -71,5 +35,28 @@ class Controler(Module):
 
     #states    
     def address(self) -> None:
-        self.fCount_next: = False
+        #undo the last state(the instruction state)
+        self.wControl.setInt(0)
+        #set the program counter out bit
+        self.wControl.toggleBit(11)
+        #set the Load MAR bit
+        self.wControl.toggleBit(10)
+
+    def increment(self) -> None:
+        #undo the last state(the addres state)
+        self.wControl.setInt(0)
+        #set program counter count bit
+        self.wControl.toggleBit(12)
+
+    def memory(self) -> None:
+        #undo the last state(the increment state)
+        self.wControl.setInt(0)
+        #set the RAM out bit
+        self.wControl.toggleBit(9)
+        #set the instruction in bit
+        self.wControl.toggleBit(8)
+
+    def instruction(self) -> None:
+        #undo the last state(the memory state)
+        self.wControl.setInt(0)
         
