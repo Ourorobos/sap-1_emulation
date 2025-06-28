@@ -41,5 +41,17 @@ class Word():
 class Byte(Word):
     length: int = 8
 
+    def getUpper(self) -> Nibble:
+        nibble = Nibble()
+        nibble.setInt(self.value & 240)
+        return nibble
+
+    def getLower(self) -> Nibble:
+        nibble = Nibble()
+        nibble.setInt(self.value & 15)
+
 class Nibble(Word):
     length: int = 4
+
+class Command(Word):
+    length: int = 12
