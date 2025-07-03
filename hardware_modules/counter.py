@@ -19,6 +19,7 @@ class Counter(Module):
         self.control = Controler
 
     def update(self) -> None:
-        #more to be added
-        if (not self.control.getClock()):
-            self.value.add(Nibble().value = 1)
+        if (self.control.getCommandFlag()):
+            self.value.setInt(self.value.getInt() + 1)
+        elif (self.control.getCommandFlag()):
+            self.value_out(self.bus)
